@@ -1,0 +1,186 @@
+In Linux, **environment variables** are dynamic named values that can affect the way running processes behave. They are part of the environment in which a process runs and are used by programs to store configuration information, paths, and other data that applications might need.
+
+---
+
+### What are Environment Variables?
+
+Think of environment variables as a set of key-value pairs that the operating system makes available to any program or script you run. For instance:
+
+* A program might look for an environment variable named `PATH` to know where to find executable commands.
+* A web server might use `PORT` to determine which network port to listen on.
+* Your shell might use `PS1` to customize the appearance of your command prompt.
+
+---
+
+### Types of Environment Variables
+
+There are generally two types of environment variables:
+
+1.  **System-wide Environment Variables:**
+    * Set for all users and all shells on the system.
+    * Typically configured in files like `/etc/profile`, `/etc/environment`, or within `/etc/profile.d/` scripts.
+    * Require root privileges to modify.
+
+2.  **User-specific Environment Variables:**
+    * Set for a particular user and typically apply only to their shell sessions.
+    * Configured in files within the user's home directory, such as `~/.bashrc`, `~/.bash_profile`, `~/.profile`, or `~/.zshrc` (depending on the shell).
+
+---
+
+### Common Environment Variables
+
+Here are some of the most frequently encountered environment variables in Linux:
+
+* **`PATH`**:
+    * A colon-separated list of directories where the shell looks for executable commands.
+    * When you type a command like `ls` or `vim`, the shell searches these directories in order.
+    * Example: `/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin`
+
+* **`HOME`**:
+    * The absolute path to the current user's home directory.
+    * Example: `/home/yourusername`
+
+* **`USER`** / **`LOGNAME`**:
+    * The username of the current logged-in user.
+
+* **`SHELL`**:
+    * The path to the default login shell for the current user.
+    * Example: `/bin/bash` or `/bin/zsh`
+
+* **`LANG`**:
+    * Sets the default locale for language and character encoding settings.
+    * Example: `en_US.UTF-8`
+
+* **`TERM`**:
+    * Defines the type of terminal emulation currently in use.
+    * Example: `xterm-256color`
+
+* **`PWD`**:
+    * The absolute path of the current working directory.
+
+* **`OLDPWD`**:
+    * The absolute path of the previous working directory.
+
+* **`PS1`**:
+    * The primary prompt string that defines the appearance of your shell prompt.
+    * Highly customizable.
+
+* **`EDITOR`** / **`VISUAL`**:
+    * Specifies the default text editor to be used by various programs.
+    * Example: `vim` or `nano`
+
+---
+
+### How to Work with Environment Variables
+
+#### 1. Viewing Environment Variables
+
+* **`printenv`**: Displays all environment variables and their values.
+    ```bash
+    printenv
+    ```
+    To view a specific variable:
+    ```bash
+    printenv PATH
+    ```
+
+* **`env`**: Similar to `printenv`, often used without arguments to show all.
+    ```bash
+    env
+    ```
+
+* **`echo $VARIABLE_NAME`**: Displays the value of a specific environment variable. The `$` prefix is crucial.
+    ```bash
+    echo $PATH
+    echo $HOME
+    ```
+
+* **`set`**: Displays all shell variables, including environment variables, shell functions, and local variables. This output is usually much larger than `printenv` or `env`.
+    ```bash
+    set
+    ```
+
+#### 2. Setting Environment Variables (Temporary)
+
+You can set an environment variable for the current shell session using the `export` command. These changes will **only last for the current terminal session** and its child processes.
+
+```bash
+export MY_VARIABLE="Hello World"
+echo $MY_VARIABLE
+```
+
+You can also set a variable for a single command's execution without exporting it for the entire session:
+
+Bash
+
+```
+MY_TEMP_VAR="Temporary value" my_command
+```
+
+#### 3\. Setting Environment Variables (Permanent)
+
+To make an environment variable persistent across reboots and new terminal sessions, you need to add it to a shell configuration file.
+
+* *   **For the current user (most common):** Edit `~/.bashrc` (for Bash shell) or `~/.zshrc` (for Zsh shell) or `~/.profile`. Open the file with your favorite text editor (e.g., `vim`, `nano`):
+ 
+Bash
+
+``` 
+    nano ~/.bashrc 
+```
+     
+ Add lines like:
+     
+Bash
+     
+```
+    export MY_PERMANENT_VAR="This is permanent"
+    export ANOTHER_PATH="/opt/my_app/bin:$PATH" # Add to PATH
+```
+  
+After saving the file, apply the changes without logging out and back in:
+
+Bash     
+```
+    source ~/.bashrc
+    # or
+    . ~/.bashrc
+```
+     
+* **For all users (system-wide):** This requires root privileges and is typically done for system-level configurations.
+    
+    * **`/etc/profile`**: Executed by all login shells for all users.
+    * **`/etc/environment`**: A simple file where each line defines a `KEY="VALUE"` pair. It's read by non-login shells and some desktop environments.
+    *  **`/etc/profile.d/`**: A directory containing scripts that are sourced by `/etc/profile`. It's recommended to create a new `.sh` file here (e.g., `/etc/profile.d/myvars.sh`) for new system-wide variables.
+    
+Bash     
+```
+sudo nano /etc/profile.d/myvars.sh
+```
+Add:
+
+Bash
+  
+ ```
+export GLOBAL_SETTING="true"
+```
+Then, source the script or reboot for changes to take effect.
+
+#### 4\. Unsetting Environment Variables
+
+To remove an environment variable from the current session:
+
+Bash
+
+```
+unset MY_VARIABLE
+echo $MY_VARIABLE # This will now be empty
+```
+
+### Importance of Environment Variables
+
+*    **Configuration:** Allows applications to be configured without hardcoding values directly into their source code.
+*    **Flexibility:** Easily adjust system behavior or application settings without modifying core files.
+*    **Security:** Can be used to store sensitive information (though not ideal for highly sensitive data, as they can be viewed by other processes on the system if permissions are not strict).
+*    **Portability:** Makes scripts and applications more portable across different environments.
+*   **Automation:** Crucial for scripting and automating tasks, enabling scripts to adapt to different environments or user preferences.

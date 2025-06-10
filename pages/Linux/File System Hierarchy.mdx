@@ -1,0 +1,94 @@
+In Linux, the **File System Hierarchy Standard (FHS)** defines the directory structure and the content of those directories. It ensures a consistent layout across different Linux distributions, making it easier for users and software to find files. Everything in Linux is treated as a file, and the file system starts from the **root directory (`/`)**.
+
+---
+
+# Linux File System Hierarchy
+
+The Linux file system follows the Filesystem Hierarchy Standard (FHS). Below is a common structure of the root ( `/` ) directory:
+
+
+
+### Key Directories and Their Purpose:
+
+Here's a breakdown of the most common and important directories in the Linux file system:
+
+* **`/` (Root Directory):**
+    * The top-level directory of the entire file system hierarchy.
+    * All other directories and files are located under the root directory.
+
+* **`/bin` (Binaries):**
+    * Contains essential user command binaries (e.g., `ls`, `cp`, `mv`, `cat`).
+    * These commands are available to all users.
+
+* **`/boot` (Boot):**
+    * Contains files required to boot the operating system (e.g., kernel images, GRUB bootloader files).
+    * **Do not modify files here unless you know what you are doing, as it can render your system unbootable.**
+
+* **`/dev` (Devices):**
+    * Contains device files representing hardware devices (e.g., hard drives, USB devices, terminals).
+    * These are not actual files but interfaces to device drivers.
+
+* **`/etc` (Etcetera):**
+    * Contains system-wide configuration files (e.g., network configurations, user passwords, service configurations).
+    * These files are typically text files and can be edited to customize system behavior.
+
+* **`/home` (Home Directories):**
+    * Contains the personal directories for regular users.
+    * Each user typically has their own subdirectory (e.g., `/home/username`) where they store their documents, downloads, and personal configurations.
+
+* **`/lib` (Libraries):**
+    * Contains essential shared libraries required by the binaries in `/bin` and `/sbin`.
+    * These libraries are crucial for many programs to run.
+
+* **`/media` (Removable Media):**
+    * Mount point for removable media devices such as USB drives, CDs, and DVDs.
+    * When you plug in a USB stick, it's often mounted here.
+
+* **`/mnt` (Mount):**
+    * A temporary mount point for mounting file systems manually (e.g., network shares, other partitions).
+
+* **`/opt` (Optional):**
+    * Contains optional software packages and third-party applications not part of the standard system.
+    * Often used for commercial or proprietary software.
+
+* **`/proc` (Processes):**
+    * A virtual file system that provides information about running processes and kernel parameters.
+    * Files here are generated on the fly and contain real-time system data.
+
+* **`/root` (Root User's Home Directory):**
+    * The home directory for the `root` (administrator) user.
+    * Separate from `/home` to ensure the root user's files are accessible even if `/home` is on a separate partition and becomes unavailable.
+
+* **`/run` (Run-time Data):**
+    * Contains volatile run-time data.
+    * Data in this directory is typically created and deleted during system boot and shutdown.
+
+* **`/sbin` (System Binaries):**
+    * Contains essential system binaries used for system administration (e.g., `fdisk`, `reboot`, `ifconfig`).
+    * These commands are typically only accessible to the root user or require `sudo` privileges.
+
+* **`/srv` (Services Data):**
+    * Contains site-specific data served by the system (e.g., web server data for Apache or Nginx).
+
+* **`/sys` (System Files):**
+    * A virtual file system providing an interface to the kernel and device drivers.
+    * Allows access to hardware information and configuration.
+
+* **`/tmp` (Temporary):**
+    * Contains temporary files created by applications and users.
+    * Files in this directory are often deleted on system reboot.
+
+* **`/usr` (Unix System Resources):**
+    * Contains shareable, read-only data (user programs and utilities).
+    * Often the largest directory on a Linux system.
+    * **`/usr/bin`**: Most user commands.
+    * **`/usr/lib`**: Libraries for programs in `/usr/bin`.
+    * **`/usr/local`**: Locally installed software, often compiled from source.
+    * **`/usr/sbin`**: Non-essential system administration binaries.
+    * **`/usr/share`**: Architecture-independent data (e.g., documentation, icons).
+
+* **`/var` (Variable Data):**
+    * Contains variable data files that change frequently during system operation.
+    * Examples include log files, mail queues, and temporary files that persist across reboots.
+    * **`/var/log`**: System and application log files.
+    * **`/var/www`**: Default location for web server content on some distributions.

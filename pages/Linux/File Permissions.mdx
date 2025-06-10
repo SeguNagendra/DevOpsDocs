@@ -1,0 +1,125 @@
+# 🔐 Linux File Permissions
+
+Linux uses a permission model to control who can read, write, or execute files and directories.
+
+---
+
+## 🧱 Permission Types
+
+Each file/directory has **three sets** of permissions:
+
+| Type     | Description        |
+|----------|--------------------|
+| `r`      | Read               |
+| `w`      | Write              |
+| `x`      | Execute            |
+
+These apply to:
+
+1. **User (u)** – the file owner  
+2. **Group (g)** – members of the file’s group  
+3. **Others (o)** – all other users  
+
+---
+
+## 🔍 Viewing Permissions
+
+Use `ls -l` to list permissions:
+
+```bash
+ls -l
+```
+
+### Example Output
+
+```
+-rwxr-xr-- 1 alice staff  512 May 25 09:00 script.sh
+```
+
+### Breakdown
+
+| Symbol    | Meaning                       |
+|-----------|-------------------------------|
+| `-`       | File type (`-` = file, `d` = directory) |
+| `rwx`     | User: read, write, execute     |
+| `r-x`     | Group: read, execute           |
+| `r--`     | Others: read                   |
+
+---
+
+## 🔧 Changing Permissions
+
+### `chmod` — Change file modes/permissions
+
+```bash
+chmod u+x file       # Add execute to user
+chmod g-w file       # Remove write from group
+chmod o=r file       # Set read only for others
+```
+
+### Symbolic vs Numeric Mode
+
+#### Symbolic
+
+```bash
+chmod u+rwx,g+rx,o+r file
+```
+
+#### Numeric (Octal)
+
+| rwx | Binary | Octal |
+|-----|--------|-------|
+| rwx | 111    | 7     |
+| rw- | 110    | 6     |
+| r-- | 100    | 4     |
+
+```bash
+chmod 755 file  # rwxr-xr-x
+chmod 644 file  # rw-r--r--
+```
+
+---
+
+## 👥 Changing Owner/Group
+
+### `chown` — Change owner
+
+```bash
+chown user file
+chown user:group file
+```
+
+### `chgrp` — Change group
+
+```bash
+chgrp group file
+```
+
+---
+
+## 🔐 Special Permissions
+
+### 1. **Setuid (`s`)**: Run as file owner  
+```bash
+chmod u+s file
+```
+
+### 2. **Setgid (`s`)**: Run as group  
+```bash
+chmod g+s dir
+```
+
+### 3. **Sticky Bit (`t`)**: Only owner can delete  
+```bash
+chmod +t /tmp
+```
+
+---
+
+## 📌 Useful Commands
+
+```bash
+find . -type f -perm 0777         # Find files with 777 perms
+chmod -R 755 /var/www             # Recursively change permissions
+chown -R user:group /home/user    # Recursively change owner/group
+```
