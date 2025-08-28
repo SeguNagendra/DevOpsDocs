@@ -2,6 +2,7 @@
   "index": "Introduction",
   "another": "Another Page",
   "Linux": "Linux",
+  "Docker": "Docker",
   "about": {
     "title": "About",
     "type": "page"
