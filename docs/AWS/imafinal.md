@@ -13,3 +13,12 @@
   style={{ width: '100%', height: '100vh', border: 'none' }}
 ></iframe> -->
 
+
+
+
+<iframe
+  src="/pdfjs/viewer.html"
+  style={{ width: '100%', height: '100vh', border: 'none' }}
+></iframe>
+
+<!-- 📄 [Open PDF](../../static/pdf/iam.pdf){:target="_blank"} -->
