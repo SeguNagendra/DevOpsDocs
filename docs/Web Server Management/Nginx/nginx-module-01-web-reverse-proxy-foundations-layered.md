@@ -1,0 +1,308 @@
+---
+sidebar_position: 1
+title: Web & Reverse Proxy Foundations
+---
+
+# Web & Reverse Proxy Foundations
+
+This module builds the foundation for understanding NGINX properly.
+
+We will explain each concept in four layers:
+
+🟢 Beginner Understanding\
+🔵 DevOps Practical View\
+🔴 Architect-Level Insight\
+⚫ Real Production Scenario
+
+------------------------------------------------------------------------
+
+# 1. What is a Web Server?
+
+## 🟢 Beginner Understanding
+
+A web server is software that:
+
+-   Listens for HTTP/HTTPS requests
+-   Serves static content (HTML, CSS, JS, images)
+-   Sends responses back to users
+
+Example: When you open a website, the web server sends the webpage files
+to your browser.
+
+------------------------------------------------------------------------
+
+## 🔵 DevOps Practical View
+
+A web server:
+
+-   Listens on port 80 (HTTP) or 443 (HTTPS)
+-   Can serve static files efficiently
+-   Can forward dynamic requests to backend (like Tomcat, Node, etc.)
+
+In production, it often sits in front of application servers.
+
+------------------------------------------------------------------------
+
+## 🔴 Architect-Level Insight
+
+Web servers are designed to:
+
+-   Handle large numbers of concurrent connections
+-   Minimize memory usage per connection
+-   Serve static content without invoking backend logic
+
+NGINX uses an event-driven model, making it highly scalable.
+
+------------------------------------------------------------------------
+
+## ⚫ Real Production Scenario
+
+If a website only serves static files:
+
+NGINX alone is enough.
+
+If it serves APIs and business logic:
+
+NGINX forwards traffic to backend application servers.
+
+------------------------------------------------------------------------
+
+# 2. What is a Reverse Proxy?
+
+## 🟢 Beginner Understanding
+
+A reverse proxy sits between users and backend servers.
+
+Flow:
+
+User → NGINX → Backend Server
+
+Users do not directly communicate with backend.
+
+------------------------------------------------------------------------
+
+## 🔵 DevOps Practical View
+
+Reverse proxy helps with:
+
+-   SSL termination
+-   Load balancing
+-   Security filtering
+-   Hiding backend IP addresses
+
+It also adds headers like:
+
+X-Forwarded-For
+
+------------------------------------------------------------------------
+
+## 🔴 Architect-Level Insight
+
+Reverse proxy enables:
+
+-   Horizontal scaling
+-   Centralized security enforcement
+-   Traffic routing based on path/domain
+-   Decoupling client from backend
+
+It becomes the edge layer of architecture.
+
+------------------------------------------------------------------------
+
+## ⚫ Real Production Scenario
+
+If Tomcat crashes:
+
+NGINX may return:
+
+502 Bad Gateway
+
+That means proxy cannot reach backend.
+
+------------------------------------------------------------------------
+
+# 3. Forward Proxy vs Reverse Proxy
+
+## 🟢 Beginner Understanding
+
+Forward Proxy: Used by clients to access internet.
+
+Reverse Proxy: Used by servers to protect backend systems.
+
+------------------------------------------------------------------------
+
+## 🔵 DevOps Practical View
+
+Forward Proxy example: Corporate network controlling outbound traffic.
+
+Reverse Proxy example: NGINX routing traffic to internal servers.
+
+------------------------------------------------------------------------
+
+## 🔴 Architect-Level Insight
+
+Reverse proxies improve:
+
+-   Scalability
+-   Observability
+-   Security boundary control
+
+Forward proxies manage outbound traffic. Reverse proxies manage inbound
+traffic.
+
+------------------------------------------------------------------------
+
+## ⚫ Real Production Scenario
+
+If your application is public-facing, you almost always use reverse
+proxy.
+
+------------------------------------------------------------------------
+
+# 4. Where NGINX Fits in Architecture
+
+## 🟢 Beginner Understanding
+
+NGINX usually sits between:
+
+Internet → NGINX → Application Server
+
+------------------------------------------------------------------------
+
+## 🔵 DevOps Practical View
+
+Typical production setup:
+
+Internet\
+→ Load Balancer (optional)\
+→ NGINX\
+→ Application (Tomcat / Node / Python)\
+→ Database
+
+NGINX handles:
+
+-   Routing
+-   SSL
+-   Static content
+
+------------------------------------------------------------------------
+
+## 🔴 Architect-Level Insight
+
+NGINX can act as:
+
+-   Edge proxy
+-   Load balancer
+-   API gateway (basic level)
+-   Caching layer
+
+It reduces load on backend services.
+
+------------------------------------------------------------------------
+
+## ⚫ Real Production Scenario
+
+Without NGINX:
+
+Application server exposed directly to internet.
+
+This increases:
+
+-   Security risk
+-   Load handling complexity
+-   Operational challenges
+
+------------------------------------------------------------------------
+
+# 5. Static vs Dynamic Content
+
+## 🟢 Beginner Understanding
+
+Static content: Files that do not change (images, CSS, JS).
+
+Dynamic content: Generated by backend (login page, dashboard).
+
+------------------------------------------------------------------------
+
+## 🔵 DevOps Practical View
+
+NGINX is extremely efficient at serving static files.
+
+Dynamic requests are forwarded to backend using proxy_pass.
+
+------------------------------------------------------------------------
+
+## 🔴 Architect-Level Insight
+
+Serving static content at edge:
+
+-   Reduces backend CPU usage
+-   Improves latency
+-   Improves scalability
+
+Many systems combine:
+
+NGINX + CDN for static optimization.
+
+------------------------------------------------------------------------
+
+## ⚫ Real Production Scenario
+
+If static files served by backend instead of NGINX:
+
+Backend threads get blocked unnecessarily.
+
+------------------------------------------------------------------------
+
+# 6. NGINX vs Traditional Web Servers
+
+## 🟢 Beginner Understanding
+
+Older web servers used process-based or thread-based model.
+
+NGINX uses event-driven model.
+
+------------------------------------------------------------------------
+
+## 🔵 DevOps Practical View
+
+Apache (process-based): More memory per connection.
+
+NGINX (event-driven): Handles thousands of connections with fewer
+resources.
+
+------------------------------------------------------------------------
+
+## 🔴 Architect-Level Insight
+
+Event-driven architecture:
+
+-   Uses non-blocking I/O
+-   Uses OS-level event mechanisms (like epoll in Linux)
+-   Scales better under high concurrency
+
+This is why NGINX is preferred for high-traffic systems.
+
+------------------------------------------------------------------------
+
+## ⚫ Real Production Scenario
+
+During traffic spike:
+
+Apache may consume large memory. NGINX handles spike more efficiently.
+
+------------------------------------------------------------------------
+
+# Summary
+
+After this module, you should clearly understand:
+
+✔ What a web server is\
+✔ What a reverse proxy does\
+✔ Forward vs reverse proxy difference\
+✔ Where NGINX sits in architecture\
+✔ Static vs dynamic content\
+✔ Why NGINX is high-performance
+
+Next module will go deep into NGINX internal architecture: Master
+process, worker process, event model, and request lifecycle.
